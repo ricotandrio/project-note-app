@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.css';
-import { getInitialData, showFormattedDate } from './utils/data.js'
-import Card from './components/card';
+import { getInitialData } from './utils/index.js'
+import Card from './components/card.js';
 
 function App() {
   const [initData, setInitData] = useState(getInitialData())
   const [currId, setCurrId] = useState(initData.length);
+  const [query, setQuery] = useState('');
 
   return (
     <>
@@ -16,7 +17,12 @@ function App() {
           </div>
           <div className='border w-1/2 p-3'>
             <label htmlFor="_search" className='p-3 hover:bg-black hover:text-white'>SEARCH LOGO</label>
-            <input type="text" placeholder='telusuri' className='outline-none p-2'/>
+            <input type="text"
+              placeholder='telusuri'
+              className='outline-none p-2'
+              name='search'
+              id='_search'
+              onChange={() => setQuery(document.getElementById("_search").value)}/>
           </div>
           <div className='border'>
             <button className='bg-red-200' onClick={() => { window.location.reload() }}>
@@ -68,7 +74,7 @@ function App() {
             <h1 className='text-2xl font-medium'>Active Notes</h1>
           </div>
           <div className='p-5 flex flex-row flex-wrap m-3 justify-center'>
-            <Card dataObject={ initData } viewType="active" setFunc={ setInitData }/>
+            <Card dataObject={ initData } viewType="active" setFunc={ setInitData } filter={ query }/>
           </div>
         </div>
 
@@ -77,7 +83,7 @@ function App() {
             <h1 className='text-2xl font-medium'>Arsip</h1>
           </div>
           <div className='p-5 flex flex-row flex-wrap m-3 justify-center'>
-            <Card dataObject={ initData } viewType="archived" setFunc={ setInitData }/>
+            <Card dataObject={ initData } viewType="archived" setFunc={ setInitData } filter={ query }/>
           </div>
         </div>
       </div>

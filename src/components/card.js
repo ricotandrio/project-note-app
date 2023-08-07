@@ -1,4 +1,4 @@
-import { showFormattedDate } from '../utils/data';
+import { showFormattedDate } from '../utils/index.js';
 
 export default function Card(props) {
   const renderedElement = [];
@@ -23,7 +23,9 @@ export default function Card(props) {
     props.setFunc(removeData);
   }
 
-  props.dataObject.map((currProps) => {
+  props.dataObject
+    .filter((curr) => curr.title.toLowerCase().includes(props.filter))
+    .map((currProps) => {
     if(props.viewType == 'active' && currProps.archived == false){
       renderedElement.push (
         <div key={ currProps.id } className='border w-1/4 p-3 flex flex-col text-left m-3'>
