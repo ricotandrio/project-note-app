@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './index.css';
 import { getInitialData, showFormattedDate } from './utils/data.js'
 import Card from './components/card';
 
 function App() {
-  const [initData, setInitData] = useState([])
-
-  useEffect(() => {
-    setInitData(getInitialData());
-  }, []);
-
-  useEffect(() => {
-    console.log(initData);
-  }, []);
+  const [initData, setInitData] = useState(getInitialData())
+  const [currId, setCurrId] = useState(initData.length);
 
   return (
     <>
@@ -33,23 +26,38 @@ function App() {
         </nav>
 
         <div className='mb-10 p-3 mt-10 w-full'>
-          <form action="" className='flex flex-col items-center gap-5 border'>
-            <input type="text" placeholder='judul' name='title'
-              className='border p-3 w-1/3'
-              onFocus={() => { document.getElementById('textarea_body').style.display = 'flex' }}
-              onBlur={() => { document.getElementById('textarea_body').style.display = 'none' }}/>
+          <form action=""
+            className='flex flex-col items-center gap-5 border'
+            onSubmit={(e) => {
+              e.preventDefault();
+              let temporaryObj = {
+                'id': currId + 1,
+                'title': document.getElementById("_title").value,
+                'body': document.getElementById("_body").value,
+                'archived': false,
+                'createdAt': new Date()
+              };
 
-            <textarea name="body" id="textarea_body"
+              setCurrId(currId + 1);
+              setInitData((initData) => [...initData, temporaryObj]);
+
+              document.getElementById("_title").value = '';
+              document.getElementById("_body").value = '';
+              document.getElementById('_body').style.display = 'none';
+            }}
+          >
+            <input type="text" placeholder='judul' name='title' id='_title'
+              className='border p-3 w-1/3'
+              onFocus={() => { document.getElementById('_body').style.display = 'flex' }}
+            />
+
+            <textarea name="body" id="_body"
               className='resize-none w-1/3 h-28 p-3 border'
               style={{ display: 'none', }}
               placeholder='catatan'
             />
 
-            <button className='w-1/3 p-3 border'
-              onClick={() => {
-
-              }}
-            >
+            <button className='w-1/3 p-3 border bg-blue-300' type='submit'>
               BUAT
             </button>
           </form>
@@ -60,11 +68,7 @@ function App() {
             <h1 className='text-2xl font-medium'>Active Notes</h1>
           </div>
           <div className='p-5 flex flex-row flex-wrap m-3 justify-center'>
-            {
-              initData.map((data) => (
-                <Card key={ data.id } dataObject={ data } find='active'/>
-              ))
-            }
+            <Card dataObject={ initData } viewType="active" setFunc={ setInitData }/>
           </div>
         </div>
 
@@ -73,11 +77,7 @@ function App() {
             <h1 className='text-2xl font-medium'>Arsip</h1>
           </div>
           <div className='p-5 flex flex-row flex-wrap m-3 justify-center'>
-            {
-              initData.map((data) => (
-                <Card key={ data.id } dataObject={ data } find='archieved'/>
-              ))
-            }
+            <Card dataObject={ initData } viewType="archived" setFunc={ setInitData }/>
           </div>
         </div>
       </div>
