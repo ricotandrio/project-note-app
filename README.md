@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# project-note-app
+
+This project is my submission for the final project at Dicoding. I developed it using React.js and implemented Tailwind CSS for the user interface.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
