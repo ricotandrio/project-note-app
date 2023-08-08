@@ -4,12 +4,12 @@ import { getInitialData } from './utils/index.js'
 import Card from './components/card.js';
 import Refresh from './assets/material-symbols_refresh.png'
 
-function App() {
+export default function App() {
   const [initData, setInitData] = useState(getInitialData())
   const [currId, setCurrId] = useState(initData.length);
   const [query, setQuery] = useState('');
   const [bodyLen, setBodyLen] = useState('');
-  
+
   useEffect(() => {
     let tag = document.getElementById('_num_ofWord');
 
@@ -128,4 +128,3 @@ function App() {
   );
 }
 
-export default App;

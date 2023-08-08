@@ -2,6 +2,9 @@
 
 This project is my submission for the final project at Dicoding. I developed it using React.js and implemented Tailwind CSS for the user interface.
 
+## Live Demo
+Live demo available at https://project-notes-dicoding-r001.netlify.app
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
