@@ -1,26 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './index.css';
 import { getInitialData } from './utils/index.js'
 import Card from './components/card.js';
 import Refresh from './assets/material-symbols_refresh.png'
 
 export default function App() {
+  // init data, id generator, and search query
   const [initData, setInitData] = useState(getInitialData())
   const [currId, setCurrId] = useState(initData.length);
   const [query, setQuery] = useState('');
-  const [bodyLen, setBodyLen] = useState('');
 
-  useEffect(() => {
-    let tag = document.getElementById('_num_ofWord');
+  // form state
+  const [bodyValue, setBodyLen] = useState('');
+  const [title, setTitle] = useState('');
 
-    if(bodyLen.length <= 50){
-      tag.innerHTML = `Jumlah Kata: ${bodyLen.length} / 50`;
-      tag.style.color = 'black';
-    } else {
-      tag.innerHTML = `Jumlah Kata: ${bodyLen.length} / 50 (WARNING)`;
-      tag.style.color = 'red';
-    }
-  }, [bodyLen]);
+  // html tag state
+  const [warning1, setWarning1] = useState('');
+  const [warning2, setWarning2] = useState('');
+  const [bodyVisible, setBodyVisible] = useState(false);
 
   return (
     <>
@@ -34,8 +31,7 @@ export default function App() {
               placeholder='Telusuri'
               className='outline-none pl-5 pr-5 bg-transparent placeholder-gray-500'
               name='search'
-              id='_search'
-              onChange={() => setQuery(document.getElementById("_search").value)}/>
+              onChange={(e) => setQuery(e.target.value)}/>
           </div>
           <div className='border rounded-full ease-in-out duration-300 border-transparent hover:bg-gray-200 p-2 flex items-center justify-center'>
             <button className='w-8 h-8' onClick={() => { window.location.reload() }}>
@@ -52,52 +48,55 @@ export default function App() {
 
               let temporaryObj = {
                 'id': currId + 1,
-                'title': document.getElementById("_title").value,
-                'body': document.getElementById("_body").value,
+                'title': title,
+                'body': bodyValue,
                 'archived': false,
-                'createdAt': new Date()
+                'createdAt': (new Date()).toISOString(),
               };
 
-              if(temporaryObj.title == '' || temporaryObj.title == ' ' || temporaryObj.body == '' || temporaryObj.body == ' '){
-                document.getElementById("_warning1").innerHTML = 'WARNING: SETIAP KONTEN JUDUL / CATATAN HARUS TERISI'
-              } else if(bodyLen.length >= 50){
-                document.getElementById("_warning2").innerHTML = 'WARNING: CATATAN TIDAK BISA LEBIH DARI 50 KARAKTER'
+              if(title === '' || bodyValue === ''){
+                setWarning1('WARNING: SETIAP KONTEN JUDUL / CATATAN HARUS TERISI');
+              } else if(bodyValue.length >= 50){
+                setWarning2('WARNING: CATATAN TIDAK BISA LEBIH DARI 50 KARAKTER');
               } else {
                 setCurrId(currId + 1);
                 setInitData((initData) => [...initData, temporaryObj]);
-
-                document.getElementById("_title").value = '';
-                document.getElementById("_body").value = '';
-                document.getElementById('_body').style.display = 'none';
+                setWarning1('');
+                setWarning2('');
+                setTitle('')
+                setBodyLen('')
+                setBodyVisible(false);
               }
             }}
           >
-            <p className='text-accent_red' id='_warning1'> </p>
-            <p className='text-accent_red' id='_warning2'> </p>
+            <p className='text-accent_red' id='_warning1'>{ warning1 }</p>
+            <p className='text-accent_red' id='_warning2'>{ warning2 }</p>
             <input type="text"
               placeholder='Judul'
               name='title'
-              id='_title'
               className='border p-3 w-1/3 rounded-md drop-shadow-md focus:outline-none'
+              value={ title }
+              onChange={(e) => setTitle(e.target.value)}
               onFocus={() => {
-                document.getElementById('_body').style.display = 'flex'
-                document.getElementById('_num_ofWord').style.display = 'flex'
-
+                setBodyVisible(true);
               }}
             />
 
             <textarea name="body"
-              id="_body"
               className='resize-none w-1/3 h-28 p-3 border drop-shadow-md rounded-md focus:outline-none'
-              style={{ display: 'none', }}
+              style={{ display: bodyVisible === true ? 'block' : 'none', }}
               placeholder='Catatan'
-              onChange={() => {
-                let tag = document.getElementById('_body');
-                setBodyLen(tag.value);
-              }}
+              value={ bodyValue }
+              onChange={(e) => { setBodyLen(e.target.value); }}
             />
-            <div className='w-1/3 pl-2' id='_num_ofWord' style={{ display: 'none', }}>
-              <h2>Jumlah kata: </h2>
+            <div className='w-1/3 pl-2'
+              id='_num_ofWord'
+              style={{
+                display: bodyVisible === true ? 'block' : 'none',
+                color: bodyValue.length > 50 ? 'red' : 'black',
+              }}
+            >
+              Jumlah Kata: {bodyValue.length} / 50 {bodyValue.length > 50 && 'WARNING'}
             </div>
 
             <button className='w-1/3 p-3 ease-in bg-primary duration-200 rounded-md text-gray-700 hover:scale-95 hover:bg-accent' type='submit'>

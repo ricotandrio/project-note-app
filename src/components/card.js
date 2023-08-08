@@ -21,7 +21,7 @@ export default function Card(props) {
   props.dataObject
     .filter((curr) => curr.title.toLowerCase().includes(props.filter.toLowerCase()))
     .map((currProps) => {
-    if((props.viewType == 'active' && currProps.archived == false) || (props.viewType == 'archived' && currProps.archived == true)){
+    if((props.viewType === 'active' && currProps.archived === false) || (props.viewType === 'archived' && currProps.archived === true)){
       renderedElement.push (
         <div
           key={ currProps.id }
@@ -42,14 +42,14 @@ export default function Card(props) {
             <button className='text-xs p-3 shadow-md rounded-full w-32 m-2 bg-primary hover:bg-accent ease-in-out duration-300'
               onClick={() => { archivedHandler(currProps.id); }}
             >
-              { (props.viewType == 'active' && currProps.archived == false) ? ('ARSIPKAN') : ('PINDAHKAN') }
+              { (props.viewType === 'active' && currProps.archived === false) ? ('ARSIPKAN') : ('PINDAHKAN') }
             </button>
           </div>
         </div>
       )
     }
   })
-  if(renderedElement.length == 0){
+  if(renderedElement.length === 0){
     return (
       <div>
         <h2 className='text-2xl'>Tidak ada catatan</h2>
