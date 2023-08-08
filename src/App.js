@@ -2,40 +2,54 @@ import React, { useEffect, useState } from 'react';
 import './index.css';
 import { getInitialData } from './utils/index.js'
 import Card from './components/card.js';
+import Refresh from './assets/material-symbols_refresh.png'
 
 function App() {
   const [initData, setInitData] = useState(getInitialData())
   const [currId, setCurrId] = useState(initData.length);
   const [query, setQuery] = useState('');
+  const [bodyLen, setBodyLen] = useState('');
+  
+  useEffect(() => {
+    let tag = document.getElementById('_num_ofWord');
+
+    if(bodyLen.length <= 50){
+      tag.innerHTML = `Jumlah Kata: ${bodyLen.length} / 50`;
+      tag.style.color = 'black';
+    } else {
+      tag.innerHTML = `Jumlah Kata: ${bodyLen.length} / 50 (WARNING)`;
+      tag.style.color = 'red';
+    }
+  }, [bodyLen]);
 
   return (
     <>
       <div className='w-full h-screen'>
-        <nav className='w-full border flex items-center justify-between pl-10 pr-10 pt-5 pb-5'>
-          <div className='border'>
+        <nav className='w-full border flex items-center justify-between pl-10 pr-10 pt-5 pb-5 shadow-md'>
+          <div>
             <h1 className='text-2xl font-bold'>Aplikasi Catatan</h1>
           </div>
-          <div className='border w-1/2 p-3'>
-            <label htmlFor="_search" className='p-3 hover:bg-black hover:text-white'>SEARCH LOGO</label>
+          <div className='w-1/2 p-3 rounded-md bg-gray-100'>
             <input type="text"
-              placeholder='telusuri'
-              className='outline-none p-2'
+              placeholder='Telusuri'
+              className='outline-none pl-5 pr-5 bg-transparent placeholder-gray-500'
               name='search'
               id='_search'
               onChange={() => setQuery(document.getElementById("_search").value)}/>
           </div>
-          <div className='border'>
-            <button className='bg-red-200' onClick={() => { window.location.reload() }}>
-              SEGARKAN
+          <div className='border rounded-full ease-in-out duration-300 border-transparent hover:bg-gray-200 p-2 flex items-center justify-center'>
+            <button className='w-8 h-8' onClick={() => { window.location.reload() }}>
+              <img src={ Refresh } alt="refresh icon" className='w-full h-full rounded-full'/>
             </button>
           </div>
         </nav>
 
         <div className='mb-10 p-3 mt-10 w-full'>
           <form action=""
-            className='flex flex-col items-center gap-5 border'
+            className='flex flex-col items-center gap-5'
             onSubmit={(e) => {
               e.preventDefault();
+
               let temporaryObj = {
                 'id': currId + 1,
                 'title': document.getElementById("_title").value,
@@ -44,26 +58,49 @@ function App() {
                 'createdAt': new Date()
               };
 
-              setCurrId(currId + 1);
-              setInitData((initData) => [...initData, temporaryObj]);
+              if(temporaryObj.title == '' || temporaryObj.title == ' ' || temporaryObj.body == '' || temporaryObj.body == ' '){
+                document.getElementById("_warning1").innerHTML = 'WARNING: SETIAP KONTEN JUDUL / CATATAN HARUS TERISI'
+              } else if(bodyLen.length >= 50){
+                document.getElementById("_warning2").innerHTML = 'WARNING: CATATAN TIDAK BISA LEBIH DARI 50 KARAKTER'
+              } else {
+                setCurrId(currId + 1);
+                setInitData((initData) => [...initData, temporaryObj]);
 
-              document.getElementById("_title").value = '';
-              document.getElementById("_body").value = '';
-              document.getElementById('_body').style.display = 'none';
+                document.getElementById("_title").value = '';
+                document.getElementById("_body").value = '';
+                document.getElementById('_body').style.display = 'none';
+              }
             }}
           >
-            <input type="text" placeholder='judul' name='title' id='_title'
-              className='border p-3 w-1/3'
-              onFocus={() => { document.getElementById('_body').style.display = 'flex' }}
+            <p className='text-accent_red' id='_warning1'> </p>
+            <p className='text-accent_red' id='_warning2'> </p>
+            <input type="text"
+              placeholder='Judul'
+              name='title'
+              id='_title'
+              className='border p-3 w-1/3 rounded-md drop-shadow-md focus:outline-none'
+              onFocus={() => {
+                document.getElementById('_body').style.display = 'flex'
+                document.getElementById('_num_ofWord').style.display = 'flex'
+
+              }}
             />
 
-            <textarea name="body" id="_body"
-              className='resize-none w-1/3 h-28 p-3 border'
+            <textarea name="body"
+              id="_body"
+              className='resize-none w-1/3 h-28 p-3 border drop-shadow-md rounded-md focus:outline-none'
               style={{ display: 'none', }}
-              placeholder='catatan'
+              placeholder='Catatan'
+              onChange={() => {
+                let tag = document.getElementById('_body');
+                setBodyLen(tag.value);
+              }}
             />
+            <div className='w-1/3 pl-2' id='_num_ofWord' style={{ display: 'none', }}>
+              <h2>Jumlah kata: </h2>
+            </div>
 
-            <button className='w-1/3 p-3 border bg-blue-300' type='submit'>
+            <button className='w-1/3 p-3 ease-in bg-primary duration-200 rounded-md text-gray-700 hover:scale-95 hover:bg-accent' type='submit'>
               BUAT
             </button>
           </form>
