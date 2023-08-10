@@ -3,16 +3,20 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import RedirectRouter from './RedirectRouter';
 
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter, BrowserRouter } from 'react-router-dom';
 
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
+    {/* <BrowserRouter> */}
+
       <RedirectRouter />
-    </BrowserRouter>
+
+    {/* </BrowserRouter> */}
+    </HashRouter>
   </React.StrictMode>
 );
 
