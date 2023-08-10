@@ -12,7 +12,7 @@ export default function App({_query, _setQuery }) {
   const navigate = useNavigate();
   const currPageDesign = ({ isActive }) => {
     return {
-      width: '8.333333%',
+      width: window.innerWidth <= 640 ? '20%' : '8.333333%',
       backgroundColor: isActive ? '#c2b4cc' : '#fff',
       margin: '0.75rem',
       padding: '0.75rem',
