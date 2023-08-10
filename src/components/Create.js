@@ -8,11 +8,10 @@ import { faHome, faPlus } from '@fortawesome/free-solid-svg-icons';
 import '../index.css';
 import { useNavigate } from 'react-router-dom';
 
-export default function Create() {
+export default function Create({ _initData, _setInitData }) {
 
   // init data, id generator, and search query
-  const [initData, setInitData] = useState(getInitialData())
-  const [currId, setCurrId] = useState(initData.length);
+  const [currId, setCurrId] = useState(_initData.length);
 
   // form state
   const [bodyValue, setBodyLen] = useState('');
@@ -58,7 +57,7 @@ export default function Create() {
               setWarning2('WARNING: CATATAN TIDAK BISA LEBIH DARI 50 KARAKTER');
             } else {
               setCurrId(currId + 1);
-              setInitData((initData) => [...initData, temporaryObj]);
+              _setInitData((initData) => [...initData, temporaryObj]);
               setWarning1('');
               setWarning2('');
               setTitle('')

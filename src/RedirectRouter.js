@@ -16,7 +16,7 @@ export default function RedirectRouter() {
       <Routes>
         <Route path='/' element={<App _initData={initData} _setInitData={setInitData} _query={query} _setQuery={setQuery}/>}/>
         <Route path='*' element={<Error />}/>
-        <Route path='/create' element={<Create />}/>
+        <Route path='/create' element={<Create _initData={initData} _setInitData={setInitData} />}/>
         <Route path='/archive' element={<Archive _initData={initData} _setInitData={setInitData} _query={query} _setQuery={setQuery}/>}/>
       </Routes>
     </>
