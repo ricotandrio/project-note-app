@@ -1,4 +1,8 @@
+import React from 'react';
+
 import { showFormattedDate } from '../utils/index.js';
+
+import '../index.css';
 
 export default function Card(props) {
   const renderedElement = [];

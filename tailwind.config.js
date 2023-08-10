@@ -6,7 +6,8 @@ module.exports = {
     "./src/components/*.js",
     "./src/data/*.js",
     "./src/data/*.js",
-    "%PUBLIC_URL%/*.js"
+    "%PUBLIC_URL%/*.js",
+    "*.js"
   ],
   theme: {
     extend: {
