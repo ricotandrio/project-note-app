@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { showFormattedDate } from '../utils/index.js';
+import { showFormattedDate } from '../utils/local-data.js';
 
 import '../index.css';
 

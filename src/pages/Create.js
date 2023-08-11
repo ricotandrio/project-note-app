@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNoteSticky } from '@fortawesome/free-solid-svg-icons';
 
-import '../index.css';
 import { useNavigate } from 'react-router-dom';
 
+import '../index.css';
 
 export default function Create({ _initData, _setInitData }) {
 
@@ -26,20 +26,20 @@ export default function Create({ _initData, _setInitData }) {
 
   return (
     <>
-      <div className='w-full min-h-screen bg-white pb-5'>
+      <main className='w-full min-h-screen bg-white pb-5'>
 
         <nav className='w-full'>
-            <div className='flex flex-row items-center justify-between w-full pl-10 pr-10 pt-5 pb-5 sm:pl-20 sm:pr-20'>
-              <h1 className='font-bold'>noted.</h1>
-              <div className='border rounded-full ease-in-out duration-300 border-transparent hover:bg-gray-200 p-2 flex items-center justify-center'>
-                <button className='w-8 h-8' onClick={() => { navigate('notes')}} >
-                  <FontAwesomeIcon icon={faNoteSticky} size='xl'/>
-                </button>
-              </div>
+          <div className='flex flex-row items-center justify-between w-full pl-10 pr-10 pt-5 pb-5 sm:pl-20 sm:pr-20'>
+            <h1 className='font-bold'>noted.</h1>
+            <div className='border rounded-full ease-in-out duration-300 border-transparent hover:bg-gray-200 p-2 flex items-center justify-center'>
+              <button className='w-8 h-8' onClick={() => { navigate('notes')}} >
+                <FontAwesomeIcon icon={faNoteSticky} size='xl'/>
+              </button>
             </div>
-          </nav>
+          </div>
+        </nav>
 
-        <div className='mb-10 p-3 mt-10 w-full'>
+        <section className='mb-10 p-3 mt-10 w-full'>
           <form action=""
             className='flex flex-col items-center gap-5'
             onSubmit={(e) => {
@@ -110,8 +110,8 @@ export default function Create({ _initData, _setInitData }) {
               BUAT
             </button>
           </form>
-        </div>
-      </div>
+        </section>
+      </main>
     </>
   )
 }
