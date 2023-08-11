@@ -45,8 +45,13 @@ export default function Notes({_query, _setQuery }) {
                 placeholder='Explore'
                 className='outline-none pl-5 pr-5 bg-transparent placeholder-gray-500'
                 name='search'
-                value={_query}
-                onChange={(e) => _setQuery(e.target.value)}
+                value={_query.get('search') || ''}
+                onChange={(e) => {
+                  _setQuery({ search: e.target.value})
+                  if(e.target.value == ''){
+                    navigate('/notes/active')
+                  }
+                }}
               />
             </div>
           </div>
@@ -74,6 +79,6 @@ export default function Notes({_query, _setQuery }) {
 }
 
 Notes.propTypes = {
-  _query: PropTypes.string.isRequired,
+  _query: PropTypes.object.isRequired,
   _setQuery: PropTypes.func.isRequired
 }

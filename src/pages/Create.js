@@ -27,12 +27,11 @@ export default function Create({ _initData, _setInitData }) {
   return (
     <>
       <main className='w-full min-h-screen bg-white pb-5'>
-
         <nav className='w-full'>
           <div className='flex flex-row items-center justify-between w-full pl-10 pr-10 pt-5 pb-5 sm:pl-20 sm:pr-20'>
             <h1 className='font-bold'>noted.</h1>
             <div className='border rounded-full ease-in-out duration-300 border-transparent hover:bg-gray-200 p-2 flex items-center justify-center'>
-              <button className='w-8 h-8' onClick={() => { navigate('notes')}} >
+              <button className='w-8 h-8' onClick={() => { navigate('/notes/active')}} >
                 <FontAwesomeIcon icon={faNoteSticky} size='xl'/>
               </button>
             </div>
@@ -46,7 +45,7 @@ export default function Create({ _initData, _setInitData }) {
               e.preventDefault();
 
               let temporaryObj = {
-                'id': currId + 1,
+                'id': `notes-${currId + 1}`,
                 'title': title,
                 'body': bodyValue,
                 'archived': false,
@@ -55,8 +54,8 @@ export default function Create({ _initData, _setInitData }) {
 
               if(title === '' || bodyValue === ''){
                 setWarning1('WARNING: EVERY CONTENT TITLE / NOTE MUST BE FILLED');
-              } else if(bodyValue.length >= 50){
-                setWarning2('WARNING: NOTES CANNOT EXCEED 50 CHARACTERS');
+              } else if(bodyValue.length > 100){
+                setWarning2('WARNING: NOTES CANNOT EXCEED 100 CHARACTERS');
               } else {
                 setCurrId(currId + 1);
                 _setInitData((initData) => [...initData, temporaryObj]);
@@ -87,17 +86,17 @@ export default function Create({ _initData, _setInitData }) {
               style={{ display: bodyVisible ? 'block' : 'none' }}
               data-placeholder='Description'
               contentEditable='true'
-              onInput={(e) => { setBodyLen(e.target.textContent) }}
+              onInput={(e) => { setBodyLen(e.target.innerHTML) }}
             />
 
             <div className='w-1/3 pl-2'
               id='_num_ofWord'
               style={{
                 display: bodyVisible === true ? 'block' : 'none',
-                color: bodyValue.length > 50 ? 'red' : 'black',
+                color: bodyValue.length > 100 ? 'red' : 'black',
               }}
             >
-              Word Count: {bodyValue.length} / 50 {bodyValue.length > 50 && 'WARNING'}
+              Word Count: {bodyValue.length} / 100 {bodyValue.length > 100 && 'WARNING'}
             </div>
 
             <button
