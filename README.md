@@ -1,7 +1,5 @@
 # project-note-app
 
-This project is my submission for the final project at Dicoding. I developed it using React.js and implemented Tailwind CSS for the user interface.
-
 ## Live Demo
 Live demo available at https://ricotandrio.github.io/project-note-app/
 
