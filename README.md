@@ -1,5 +1,7 @@
 # project-note-app
 
+Dicoding final project created with React.js and Tailwind CSS.
+
 ## Live Demo
 Live demo available at https://ricotandrio.github.io/project-note-app/
 
